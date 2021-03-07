@@ -529,7 +529,7 @@
 (p notice-dstimulus
   =goal>
     isa           goal
-  - state         dwander
+    state         dwander
   ?visual>
     scene-change  t
   ?visual-location>
