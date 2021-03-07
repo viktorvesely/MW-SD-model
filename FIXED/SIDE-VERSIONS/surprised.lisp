@@ -226,13 +226,13 @@
   (get-response isa subgoal step get-response)
   (make-response isa subgoal step make-response)
   (reinforce-boredom isa subgoal step reinforce-boredom)
-
+  
   (pos isa chunk)
   (neutr isa chunk)
   (neg isa chunk)
   (reminder isa chunk)
   (surprise isa chunk)
-
+  
   (positive isa memory type pos)
   (negative isa memory type neg)
   (neutral isa memory type neutr)

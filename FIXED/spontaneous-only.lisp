@@ -220,7 +220,6 @@
   (withhold-on-Q isa srmapping stimulus "Q" hand nil)
   (startgoal isa beginning label start)
   (attend isa goal state attend)
-  (dwander isa goal state dwander)
   (swander isa goal state swander)
   (identify isa subgoal step identify)
   (get-response isa subgoal step get-response)
@@ -242,7 +241,6 @@
 
 (set-base-levels
   (attend      10000  -10000)
-  (dwander      10000  -10000)
   (swander      10000  -10000)
   (press-on-O    10000  -10000)
   (withhold-on-Q  10000  -10000)
@@ -346,14 +344,12 @@
     isa       punch
     hand      =hand
     finger    index
+  -goal>
   -visual-location>
   -visual>
-  =goal>
-    isa subgoal
-    step reinforce-boredom
   +retrieval>
     isa       goal
-    state     dwander
+  - state     nil
 )
 
 (p do-not-respond-if-Q
@@ -365,52 +361,13 @@
     stimulus  =letter
     hand      nil
 ==>
-
+  -goal>
   -visual-location>
   -visual>
-  =goal>
-    isa subgoal
-    step reinforce-boredom
   +retrieval>
     isa       goal
-    state     dwander
+  -  state     nil
 )
-
-(p be-bored
-  =goal>
-    isa subgoal
-    step reinforce-boredom
-  =retrieval>
-    isa goal
-    state dwander 
-==>
-  -retrieval>
-  +retrieval>
-    isa       goal
-  - state    nil
-  -goal>
-)
-
-(p initiate-deliberate-mind-wander
-  =retrieval>
-    isa           goal
-    state         dwander
-  ?retrieval>
-    state         free
-  - state         error
-  ?goal>
-    buffer        empty
-==>
-  +goal>
-    isa           goal
-    state         dwander
-  =retrieval>
-    state         nil ; clear retrieval buffer without strengthening chunk
-  -retrieval>
-  +retrieval>
-    isa           memory
-  - type          nil
-) 
 
 (p initiate-spontaneous-mind-wander
   =retrieval>
@@ -432,25 +389,6 @@
     isa           memory
   - type          nil
 ) 
-
-(p mind-dwander
-  =goal>
-    isa           goal
-    state         dwander
-  =retrieval>
-    isa           memory
-  - type          reminder
-  ?visual>
-	-	scene-change  T
-==>
-  =goal>
-  =retrieval>
-    state         nil           ; clear retrieval buffer without strengthening chunk
-  -retrieval>
-  +retrieval>
-    isa           memory
-  - type          nil
-)
 
 (p mind-swander
   =goal>
@@ -505,52 +443,6 @@
   +retrieval>
     isa           goal
     state         attend
-)
-
-(p regain-dfocus
-  =goal>
-    isa           goal
-    state         dwander
-  =retrieval>
-    isa           memory
-    type          reminder
-==>
-  -goal>
-  -visual-location>
-  -visual>
-  =retrieval>
-    state         nil           ; clear retrieval buffer without strengthening chunk
-  -retrieval> 
-  +retrieval>
-    isa           goal
-    state         attend
-)
- 
-(p notice-dstimulus
-  =goal>
-    isa           goal
-    state         dwander
-  ?visual>
-    scene-change  t
-  ?visual-location>
-    buffer        full
-    buffer        unrequested
-  ?manual>
-    state         free
-  ?retrieval>                   ; The model responds only when it is not busy retrieving
-    state         free
-  - state         error
-==>
-  +manual>
-    isa       punch
-    hand      left
-    finger    index
-  -goal>
-  -visual-location>
-  -visual>
-  +retrieval>
-    isa       goal
-  - state     nil
 )
 
 (p notice-sstimulus-1
