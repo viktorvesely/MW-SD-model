@@ -226,13 +226,14 @@
   (get-response isa subgoal step get-response)
   (make-response isa subgoal step make-response)
   (reinforce-boredom isa subgoal step reinforce-boredom)
+  (goal-reminder isa subgoal step goal-reminder)
 
   (pos isa chunk)
   (neutr isa chunk)
   (neg isa chunk)
   (reminder isa chunk)
   (surprise isa chunk)
-
+  
   (positive isa memory type pos)
   (negative isa memory type neg)
   (neutral isa memory type neutr)
@@ -487,14 +488,28 @@
     category      surprise
 )
 
-; Consciously get back on task
-(p regain-sfocus
+
+(p realize-goal
   =goal>
     isa           goal
     state         swander
   =retrieval>
     isa           emotion
     category      surprise
+==>
+  +retrieval>
+    isa           subgoal
+    step          goal-reminder
+)
+
+; Consciously get back on task
+(p regain-sfocus
+  =goal>
+    isa           goal
+    state         swander
+  =retrieval>
+    isa           subgoal
+    step           goal-reminder
 ==>
   -goal>
   -visual-location>
@@ -571,6 +586,22 @@
     category  surprise
 )
 
+(p realize-goal-stimulus
+  =goal>
+    isa           goal
+    state         swander
+  =retrieval>
+    isa           emotion
+    category      surprise
+  ?visual-location>
+    buffer        full
+    buffer        unrequested
+==>
+  +retrieval>
+    isa           subgoal
+    step          goal-reminder
+)
+
 (p notice-sstimulus-2
   =goal>
     isa           goal
@@ -584,8 +615,8 @@
     state         free
   - state         error
   =retrieval>
-    isa           emotion
-    category      surprise 
+    isa           subgoal
+    step      goal-reminder 
 ==>
   +manual>
     isa       punch
